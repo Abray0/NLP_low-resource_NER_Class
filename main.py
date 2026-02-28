@@ -26,13 +26,6 @@ from pydantic import BaseModel, Field
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Model paths — points to YOUR fine-tuned models in outputs/
-# The pipeline scripts save to ./outputs/<task>_model by default.
-# Adjust these paths if you used a different --output-dir.
-# ─────────────────────────────────────────────────────────────────────────────
-# BASE_DIR = the folder where main.py lives (i.e. your "New folder (6)" or wherever)
-# outputs/ is expected to be a sibling folder next to main.py
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_PATHS = {
@@ -90,10 +83,6 @@ def get_classification_pipeline():
             device=-1,
         )
     return _models["classification"]
-
-
-# Translation removed
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # App

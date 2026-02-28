@@ -57,8 +57,7 @@ class PipelineConfig:
     weight_decay: float = 0.01
     output_dir: str = "./outputs/ner_model"
     seed: int = 42
-    # Few-shot config: set to None for full training
-    few_shot_samples: Optional[int] = None          # e.g. 100 for few-shot
+    few_shot_samples: Optional[int] = None
 
 
 class WikiANNDataset(Dataset):
@@ -95,7 +94,7 @@ class NERPipeline:
         logger.info(f"Loading pretrained model: {self.config.model_name}")
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.config.model_name,
-            use_fast=True,     # SentencePiece fast tokenizer
+            use_fast=True,
         )
         self.model = AutoModelForTokenClassification.from_pretrained(
             self.config.model_name,
@@ -112,7 +111,6 @@ class NERPipeline:
         logger.info(f"Loading WikiANN [{self.config.language}] dataset…")
         raw = load_dataset(self.config.dataset_name, self.config.language)
 
-        # Optional: few-shot sampling
         if self.config.few_shot_samples:
             logger.info(f"Few-shot mode: {self.config.few_shot_samples} training samples")
             raw["train"] = raw["train"].shuffle(seed=self.config.seed).select(
@@ -149,11 +147,11 @@ class NERPipeline:
             prev_word_id = None
             for word_id in word_ids:
                 if word_id is None:
-                    labels.append(-100)          # Special tokens [CLS], [SEP]
+                    labels.append(-100)
                 elif word_id != prev_word_id:
-                    labels.append(ner_tags[word_id])   # First subword → real label
+                    labels.append(ner_tags[word_id])
                 else:
-                    labels.append(-100)          # Continuation subword → ignore
+                    labels.append(-100)
                 prev_word_id = word_id
             all_labels.append(labels)
         tokenized["labels"] = all_labels
@@ -387,4 +385,4 @@ if __name__ == "__main__":
     )
     pipeline = NERPipeline(config).load_model().load_data().train()
     pipeline.evaluate()
-    pipeline.save()  # saves final model to output_dir
+    pipeline.save()

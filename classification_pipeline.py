@@ -42,7 +42,7 @@ LABEL2ID = {l: i for i, l in ID2LABEL.items()}
 class SentimentConfig:
     model_name: str = "xlm-roberta-base"
     dataset_name: str = "Davlan/sib200"
-    language_code: str = "arb_Arab"          # Arabic (Modern Standard) in SIB-200
+    language_code: str = "arb_Arab"
     max_length: int = 128
     batch_size: int = 16
     num_epochs: int = 3
@@ -271,12 +271,9 @@ class SentimentPipeline:
 
 if __name__ == "__main__":
     config = SentimentConfig(
-        few_shot_samples=None,   # use full dataset for better accuracy
-        num_epochs=5,            # more epochs = higher F1/accuracy
+        few_shot_samples=None,
+        num_epochs=5,
         batch_size=16,
     )
     pipeline = SentimentPipeline(config).load_model().load_data().train()
     pipeline.evaluate()
-    # pipeline.save() is optional — best checkpoint is already saved by Trainer
-    # Uncomment if you have enough disk space:
-    # pipeline.save()
