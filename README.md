@@ -303,8 +303,6 @@ New folder (6)/
 ├── sentiment_pipeline.py    # Classification training: XLM-R + SIB-200
 ├── main.py                  # FastAPI backend (inference API)
 ├── requirements.txt
-├── scripts/
-│   └── generate_charts.py   # Standalone benchmark charts
 └── outputs/
     ├── ner_model/
     │   ├── config.json
