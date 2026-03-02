@@ -354,14 +354,6 @@ python ner_pipeline.py --epochs 5 --few-shot
 ```bash
 python sentiment_pipeline.py
 ```
-
-### Generate standalone benchmark charts
-
-```bash
-python scripts/generate_charts.py
-# Output: scripts/../charts/chart_*.png
-```
-
 ---
 
 ## Running the Backend
